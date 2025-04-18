@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>RuangPikiran</title>
+  <title>Detail Pengumuman</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -40,8 +40,8 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{{ route('homepage') }}" class="active">Home</a></li>
-          <li><a href="{{ route('about_us') }}">About</a></li>
-          <li><a href="single-post.html">Single Post</a></li>
+          <li><a href="{{ route('about_us') }}">Tentang Kami</a></li>
+          <li><a href="{{ route('pembelajaran_user') }}">Pembelajaran</a></li>
           <li class="dropdown">
             <a href="#"><span>Categories</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>

@@ -51,9 +51,9 @@
             </div>
             <br>
 
-            <a href="/auth-google-redirect" class="google-button">
+            <!-- <a href="/auth-google-redirect" class="google-button">
                 <img src="{{ asset('images/google.png') }}" alt="Google"> Masuk dengan Google
-            </a>
+            </a> -->
 
             <div class="register">
                 <p>Sudah Memiliki Akun? <a href="{{ url('/auth/login') }}">Masuk</a></p>

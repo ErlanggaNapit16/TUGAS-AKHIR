@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>About Us Admin</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -280,6 +280,13 @@
         </a>
       </li><!-- End Dashboard Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link collapsed " href="{{ route('admin.create_konselor_admin') }}">
+          <i class="ri-parent-fill"></i>
+          <span>Tambah Konselor</span>
+        </a>
+      </li><!-- End Create Konselor Nav -->
+
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -295,8 +302,7 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-
-
+    
     <div class="container">
       <a href="{{ route('admin.about_us_edit') }}" class="btn btn-primary mb-3">Edit About Us</a>
 
@@ -381,9 +387,6 @@
         @endif
       </div>
     </div>
-
-
-
 
   </main><!-- End #main -->
 

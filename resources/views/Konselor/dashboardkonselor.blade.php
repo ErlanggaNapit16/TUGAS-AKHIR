@@ -274,8 +274,8 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url('/konselor/schedule') }}">
-          <i class="bi bi-layout-text-window-reverse"></i>
-          <span>Schedule</span>
+          <i class="ri-calendar-2-fill"></i>
+          <span>Jadwal</span>
         </a>
       </li><!-- End Schedule Page Nav -->
 
@@ -285,6 +285,13 @@
           <span>Carousel</span>
         </a>
       </li><!-- End Carousel Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('konselor.pembelajaran') }}">
+          <i class=" ri-folder-open-fill"></i>
+          <span>Pembelajaran</span>
+        </a>
+      </li><!-- End Pembelajaran Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('konselor.feedback') }}">

@@ -19,10 +19,9 @@ class CarouselController extends Controller
 
 public function homepage()
 {
-    
     $carousels = Carousel::all();
-    return Carousel::all(); // Mengembalikan data, bukan view
 
+    // Pastikan hanya return view yang dikirim
     return view('homepage', compact('carousels'));
 }
 

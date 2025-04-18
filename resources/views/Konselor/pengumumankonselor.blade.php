@@ -192,62 +192,62 @@
 
         <li class="nav-item dropdown pe-3">
 
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="{{ auth()->user()->profile_image ? asset(auth()->user()->profile_image) : asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->name }}</span>
-                    </a><!-- End Profile Iamge Icon -->
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{{ auth()->user()->profile_image ? asset(auth()->user()->profile_image) : asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->name }}</span>
+          </a><!-- End Profile Iamge Icon -->
 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>{{ auth()->user()->name }}</h6>
-                            <span>Web Designer</span>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ auth()->user()->name }}</h6>
+              <span>Web Designer</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.konselor') }}">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.konselor') }}">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="bi bi-gear"></i>
-                                <span>Account Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                <i class="bi bi-gear"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                <i class="bi bi-question-circle"></i>
+                <span>Need Help?</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-                        <li>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item d-flex align-items-center">
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Sign Out</span>
-                                </button>
-                            </form>
-                        </li>
+            <li>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item d-flex align-items-center">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </button>
+              </form>
+            </li>
 
-                    </ul><!-- End Profile Dropdown Items -->
-                </li><!-- End Profile Nav -->
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
 
       </ul>
     </nav><!-- End Icons Navigation -->
@@ -274,16 +274,25 @@
       <!-- End Pengumuman Page Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url('/konselor/schedule') }}">
-          <i class="bi bi-layout-text-window-reverse"></i>
-          <span>Schedule</span>
+          <i class="ri-calendar-2-fill"></i>
+          <span>Jadwal</span>
         </a>
       </li><!-- End Schedule Page Nav -->
+      
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('konselor.carousel') }}">
           <i class="bi bi-layout-text-window-reverse"></i>
           <span>Carousel</span>
-        </a>
+      </a>
       </li><!-- End Carousel Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('konselor.pembelajaran') }}">
+          <i class=" ri-folder-open-fill"></i>
+          <span>Pembelajaran</span>
+        </a>
+      </li><!-- End Pembelajaran Page Nav -->
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('konselor.feedback') }}">
           <i class="bi bi-menu-button-wide"></i>

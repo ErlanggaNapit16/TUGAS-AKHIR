@@ -8,18 +8,32 @@ use App\Http\Controllers\CarouselController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\CreateKonselorController;
+use App\Http\Controllers\PembelajaranController;
+use App\Http\Controllers\StudyController;
+use App\Models\Pembelajaran;
+use App\Models\TeamMember;
+use App\Models\Feedback;
+use App\Models\Announcement;
+use App\Models\Carousel;
 
 
-
-// Homepage menampilkan 5 pengumuman terbaru
 Route::get('/', function () {
-    $announcements = app(AnnouncementController::class)->homepage();
-    $carousels = app(CarouselController::class)->homepage();
+    $announcements = Announcement::latest()->get();
+    $carousels = Carousel::latest()->get();
+    $pembelajaran = Pembelajaran::latest()->get();
+    $teamMembers = TeamMember::latest()->get();
+    $feedbacks = Feedback::latest()->take(3)->get();
 
-    return view('homepage', compact('announcements', 'carousels'));
+    return view('homepage', compact(
+        'announcements', 
+        'carousels', 
+        'pembelajaran', 
+        'teamMembers', 
+        'feedbacks'
+    ));
 })->name('homepage');
-
-
 
 // Route untuk halaman login & registrasi
 Route::get('/auth/registrasi', [AuthController::class, 'tampilRegistrasi'])->name('registrasi.tampil');
@@ -32,11 +46,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-// Route untuk admin dengan middleware
+
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard_admin');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+    // Menampilkan daftar konselor
+    Route::get('/admin/konselor', [CreateKonselorController::class, 'index'])->name('admin.create_konselor_admin');
+
+    // Form tambah konselor
+    Route::get('/admin/konselor/create', [CreateKonselorController::class, 'create'])->name('admin.create_konselor');
+
+    // Simpan konselor baru
+    Route::post('/admin/konselor/store', [CreateKonselorController::class, 'store'])->name('admin.store_konselor_admin');
+    Route::delete('/admin/konselor/{id}', [CreateKonselorController::class, 'destroy'])->name('admin.delete_konselor');
+
 });
 
 
@@ -63,6 +86,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':konselor'])->group(function
     Route::get('/konselor/dashboard', function () {
         return view('konselor.dashboardkonselor');
     })->name('konselor.dashboard');
+    
 
     // Kelompok route untuk pengumuman oleh konselor
     Route::prefix('/konselor/pengumuman')->group(function () {
@@ -94,6 +118,37 @@ Route::middleware(['auth', RoleMiddleware::class . ':konselor'])->group(function
         Route::delete('/{feedback}', [FeedbackController::class, 'destroy'])->name('konselor.feedback.destroy');
         Route::get('/konselor/feedback', [FeedbackController::class, 'index'])->name('konselor.feedback');
     });
+
+
+    Route::middleware(['auth', RoleMiddleware::class . ':konselor'])->group(function () {
+        Route::get('/konselor/pembelajaran', [PembelajaranController::class, 'indexKonselor'])->name('konselor.pembelajaran');
+        Route::get('/konselor/pembelajaran', [PembelajaranController::class, 'indexGabungan'])->name('konselor.pembelajaran');
+        Route::get('/konselor/pembelajaran/create', [PembelajaranController::class, 'create'])->name('konselor.pembelajaran.create');
+        Route::post('/konselor/pembelajaran/store', [PembelajaranController::class, 'store'])->name('konselor.pembelajaran.store');
+        Route::get('/konselor/pembelajaran/{id}/edit', [PembelajaranController::class, 'edit'])->name('konselor.pembelajaran.edit');
+        Route::put('/konselor/pembelajaran/{id}', [PembelajaranController::class, 'update'])->name('konselor.pembelajaran.update');
+        Route::delete('/konselor/pembelajaran/{id}', [PembelajaranController::class, 'destroy'])->name('konselor.pembelajaran.destroy');
+    });
+    Route::post('/konselor/pembelajaran/upload-chunk', [PembelajaranController::class, 'uploadChunk'])->name('konselor.pembelajaran.chunk');
+    
+Route::prefix('konselor')->middleware('auth')->group(function () {
+    Route::get('/study', [StudyController::class, 'indexKonselor'])->name('konselor.study.index');
+    Route::get('/pembelajaran_konselor', [StudyController::class, 'indexKonselorGabung'])->name('konselor.pembelajaran_konselor');
+    Route::get('/study/create', [StudyController::class, 'create'])->name('konselor.study_create');
+    Route::post('/study', [StudyController::class, 'store'])->name('konselor.study.store');
+    Route::get('/study/{id}/edit', [StudyController::class, 'edit'])->name('konselor.study.edit');
+    Route::put('/study/{id}', [StudyController::class, 'update'])->name('konselor.study.update');
+    Route::delete('/study/{id}', [StudyController::class, 'destroy'])->name('konselor.study.destroy');
+});
+
+
+});
+
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/pembelajaran', [PembelajaranController::class, 'indexUser'])->name('pembelajaran_user');
 });
 
 // Menampilkan pengumuman detail untuk user umum
@@ -130,3 +185,4 @@ Route::middleware('auth')->group(function () {
     Route::match(['post', 'put'], '/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
+
