@@ -5,11 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasUuids;
+    use HasApiTokens, HasFactory, Notifiable,HasUuids;
+
+    // Disable auto-incrementing and set key type to string
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    
 
     /**
      * The attributes that are mass assignable.
@@ -23,9 +32,7 @@ class User extends Authenticatable
         'password',
         'age',
         'role',
-        'profile_image', 
-        'password'
-        
+        'profile_image',
     ];
 
     /**
@@ -41,15 +48,12 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     /**
      * Set default values for attributes.
@@ -67,7 +71,14 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+    
 
+    public function prediksiPsikologis()
+    {
+        
+        return $this->hasMany(PrediksiPsikologis::class);
+    }
+    
     public function isKonselor()
     {
         return $this->role === 'konselor';
@@ -83,8 +94,24 @@ class User extends Authenticatable
         return $this->hasMany(Feedback::class, 'user_id');
     }
 
-    public function user()
+    public function progresses()
+{
+    return $this->hasMany(Progress::class);
+}
+
+
+
+    /**
+     * Override boot method to generate UUID on creation
+     */
+    protected static function boot()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
     }
 }

@@ -19,10 +19,9 @@ class CarouselController extends Controller
 
 public function homepage()
 {
-    
     $carousels = Carousel::all();
-    return Carousel::all(); // Mengembalikan data, bukan view
 
+    // Pastikan hanya return view yang dikirim
     return view('homepage', compact('carousels'));
 }
 
@@ -68,48 +67,48 @@ public function homepage()
     public function update(Request $request, $id)
     {
         $carousel = Carousel::findOrFail($id);
-
+    
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
+        // Jika ada file gambar baru, hapus file lama
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
-            if (File::exists(public_path($carousel->image))) {
+            if (!empty($carousel->image) && File::exists(public_path($carousel->image))) {
                 File::delete(public_path($carousel->image));
             }
-
-            // Ambil file dari request
+    
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            
-            // Simpan gambar di folder public/carousel_images/
             $image->move(public_path('carousel_images'), $imageName);
-
-            // Update path gambar di database
+    
             $carousel->image = 'carousel_images/' . $imageName;
         }
-
+    
+        // Update field lainnya
         $carousel->title = $request->title;
         $carousel->description = $request->description;
         $carousel->save();
-
+    
         return redirect()->route('konselor.carousel')->with('success', 'Carousel berhasil diubah!');
     }
+    
 
     public function destroy($id)
     {
         $carousel = Carousel::findOrFail($id);
-
+    
         // Hapus gambar dari folder public jika ada
-        if (File::exists(public_path($carousel->image))) {
+        if (!empty($carousel->image) && File::exists(public_path($carousel->image))) {
             File::delete(public_path($carousel->image));
         }
-
+    
+        // Hapus record dari database
         $carousel->delete();
-
+    
         return redirect()->route('konselor.carousel')->with('success', 'Carousel berhasil dihapus!');
     }
+
 }

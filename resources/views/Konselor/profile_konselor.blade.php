@@ -273,11 +273,11 @@
             </li><!-- End Pengumuman Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ url('/konselor/schedule') }}">
-                    <i class="bi bi-layout-text-window-reverse"></i>
-                    <span>Schedule</span>
-                </a>
-            </li><!-- End Schedule Page Nav -->
+        <a class="nav-link collapsed" href="{{ route('jadwal.konselor') }}">
+          <i class="ri-calendar-2-fill"></i>
+          <span>Jadwal</span>
+        </a>
+      </li><!-- End Schedule Page Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('konselor.carousel') }}">
@@ -285,6 +285,12 @@
                     <span>Carousel</span>
                 </a>
             </li><!-- End Carousel Page Nav -->
+            <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('konselor.pembelajaran') }}">
+          <i class=" ri-folder-open-fill"></i>
+          <span>Pembelajaran</span>
+        </a>
+      </li><!-- End Pembelajaran Page Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('konselor.feedback') }}">
@@ -317,9 +323,6 @@
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <img src="{{ auth()->user()->profile_image ? asset(auth()->user()->profile_image) : asset('assets/img/profile-img.jpg') }}"
                         alt="Profile" class="rounded-circle" width="150" height="150">
-
-                    <h2>{{ auth()->user()->name }}</h2>
-                    <h3>{{ auth()->user()->phone ?? '-' }}</h3>
                 </div>
             </div>
         </div>

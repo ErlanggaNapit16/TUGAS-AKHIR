@@ -200,7 +200,6 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6>{{ auth()->user()->name }}</h6>
-              <span>Web Designer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -210,26 +209,6 @@
               <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.konselor') }}">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
               </a>
             </li>
             <li>
@@ -273,9 +252,9 @@
       </li><!-- End Pengumuman Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ url('/konselor/schedule') }}">
-          <i class="bi bi-layout-text-window-reverse"></i>
-          <span>Schedule</span>
+        <a class="nav-link collapsed" href="{{ route('jadwal.konselor') }}">
+          <i class="ri-calendar-2-fill"></i>
+          <span>Jadwal</span>
         </a>
       </li><!-- End Schedule Page Nav -->
 
@@ -287,12 +266,45 @@
       </li><!-- End Carousel Page Nav -->
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('konselor.pembelajaran') }}">
+          <i class=" ri-folder-open-fill"></i>
+          <span>Pembelajaran</span>
+        </a>
+      </li><!-- End Pembelajaran Page Nav -->
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('konselor.feedback') }}">
           <i class="bi bi-menu-button-wide"></i>
           <span>Feedback</span>
         </a>
       </li><!-- End Feedback Page Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-list-check"></i><span>Task</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{ route('konselor.cemas') }}">
+              <i class="bi bi-circle"></i><span>Task Cemas</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('konselor.depresi') }}">
+              <i class="bi bi-circle"></i><span>Task Depresi</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('konselor.task_berat') }}">
+              <i class="bi bi-circle"></i><span>Task Berat</span>
+            </a>
+          </li>
+
+        </ul>
+      </li><!-- End Icons Nav -->
     </ul>
+
 
   </aside><!-- End Sidebar-->
 
@@ -308,54 +320,131 @@
       </nav>
     </div><!-- End Page Title -->
 
-    <section class="  section">
+    <!-- Section Progres User -->
+    <section class="section">
       <div class="row">
         <div class="col-lg-12">
-
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Progres User</h5>
               <p>Tabel ini berisi progres dari setiap user yang menjalankan task setelah dianalisis oleh sistem.</p>
 
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
+              <table id="progresTable" class="table table-striped">
                 <thead>
                   <tr>
-                    <th>
-                      Nama
-                    </th>
-                    <th>Gender</th>
+                    <th>Nama</th>
                     <th>Email</th>
-                    <th>No Hp</th>
-                    <th>Keluhan</th>
-                    <th>Progres</th>
-                    <th>Action</th>
+                    <th>Hasil Prediksi</th> <!-- Kolom baru untuk hasil prediksi -->
                     <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
                     <th>Completion</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($userProgress as $user)
                   <tr>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
-                    <td>a</td>
+                    <td>{{ $user['name'] }}</td>
+                    <td>{{ $user['email'] }}</td>
+                    <td>{{ $user['hasil_prediksi'] }}</td> <!-- Menampilkan hasil prediksi -->
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal-{{ $loop->index }}" tabindex="-1" aria-labelledby="modalLabel-{{ $loop->index }}" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel-{{ $loop->index }}">Detail User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p><strong>Nama:</strong> {{ $user['name'] }}</p>
+                            <p><strong>Usia:</strong> {{ $user['age'] ?? '-' }}</p>
+                            <p><strong>Email:</strong> {{ $user['email'] }}</p>
+                            <p><strong>Phone:</strong> {{ $user['phone'] }}</p>
+                            <p><strong>Progres:</strong> {{ $user['progress'] }}</p>
+                            <p><strong>Hasil Prediksi:</strong> {{ $user['hasil_prediksi'] }}</p>
+                            <p><strong>Tanggal Mulai:</strong> {{ $user['start_date'] }}</p>
+                            <p><strong>Pencapaian:</strong> {{ $user['percentage'] }}</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <td>{{ $user['start_date'] }}</td>
+                    <td>{{ $user['percentage'] }}</td>
+                    <td>
+                      <button
+                        class="btn btn-primary btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal-{{ $loop->index }}">
+                        Selengkapnya
+                      </button>
+                    </td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
-              <!-- End Table with stripped rows -->
-
             </div>
           </div>
-
         </div>
       </div>
     </section>
+
+    <!-- Section Hasil Analisis -->
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Hasil Analisis</h5>
+              <p>Tabel ini berisi hasil analisis dari setiap user yang menjalankan analisis mental.</p>
+
+              <!-- Form untuk menampilkan semua analisis -->
+              <form action="{{ route('konselor.semuaAnalisis') }}" method="GET">
+                <button type="submit" class="btn btn-sm btn-danger">Lihat Semua Data</button>
+              </form>
+
+              <table id="analisisTable" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Hasil Prediksi</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($users as $user)
+                  @php
+                  $prediksiTerbaru = optional($user->prediksiPsikologis)->sortByDesc('created_at')->first();
+                  $hasilPrediksi = $prediksiTerbaru ? json_decode($prediksiTerbaru->hasil_prediksi, true) : null;
+                  @endphp
+                  <tr>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>
+                      @if($hasilPrediksi)
+                      <strong>Cemas:</strong> {{ $hasilPrediksi['cemas'] ?? '-' }}<br>
+                      <strong>Depresi:</strong> {{ $hasilPrediksi['depresi'] ?? '-' }}
+                      @else
+                      -
+                      @endif
+                    </td>
+                    <td>
+                      <a href="{{ route('konselor.data_lengkap', $user->id) }}" class="btn btn-sm btn-warning">Data Lengkap</a>
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
   </main><!-- End #main -->
 
@@ -377,10 +466,21 @@
   <script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
 
+
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
 
+  <!-- Scripts -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
+  <script>
+    $(document).ready(function() {
+      $('#progresTable').DataTable();
+      $('#analisisTable').DataTable();
+    });
+  </script>
 </body>
 
 </html>

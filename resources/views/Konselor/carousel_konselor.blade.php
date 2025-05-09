@@ -192,62 +192,41 @@
 
         <li class="nav-item dropdown pe-3">
 
-<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-    <img src="{{ auth()->user()->profile_image ? asset(auth()->user()->profile_image) : asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-    <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->name }}</span>
-</a><!-- End Profile Iamge Icon -->
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{{ auth()->user()->profile_image ? asset(auth()->user()->profile_image) : asset('assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->user()->name }}</span>
+          </a><!-- End Profile Iamge Icon -->
 
-<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-    <li class="dropdown-header">
-        <h6>{{ auth()->user()->name }}</h6>
-        <span>Web Designer</span>
-    </li>
-    <li>
-        <hr class="dropdown-divider">
-    </li>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{ auth()->user()->name }}</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-    <li>
-        <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.konselor') }}">
-            <i class="bi bi-person"></i>
-            <span>My Profile</span>
-        </a>
-    </li>
-    <li>
-        <hr class="dropdown-divider">
-    </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.konselor') }}">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-    <li>
-        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-            <i class="bi bi-gear"></i>
-            <span>Account Settings</span>
-        </a>
-    </li>
-    <li>
-        <hr class="dropdown-divider">
-    </li>
+            <li>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item d-flex align-items-center">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </button>
+              </form>
+            </li>
 
-    <li>
-        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-            <i class="bi bi-question-circle"></i>
-            <span>Need Help?</span>
-        </a>
-    </li>
-    <li>
-        <hr class="dropdown-divider">
-    </li>
-
-    <li>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="dropdown-item d-flex align-items-center">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-            </button>
-        </form>
-    </li>
-
-</ul><!-- End Profile Dropdown Items -->
-</li><!-- End Profile Nav -->
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
 
       </ul>
     </nav><!-- End Icons Navigation -->
@@ -273,9 +252,9 @@
       </li><!-- End Pengumuman Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ url('/konselor/schedule') }}">
-          <i class="bi bi-layout-text-window-reverse"></i>
-          <span>Schedule</span>
+        <a class="nav-link collapsed" href="{{ route('jadwal.konselor') }}">
+          <i class="ri-calendar-2-fill"></i>
+          <span>Jadwal</span>
         </a>
       </li><!-- End Schedule Page Nav -->
 
@@ -287,11 +266,41 @@
       </li><!-- End Carousel Page Nav -->
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('konselor.pembelajaran') }}">
+          <i class=" ri-folder-open-fill"></i>
+          <span>Pembelajaran</span>
+        </a>
+      </li><!-- End Pembelajaran Page Nav -->
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('konselor.feedback') }}">
           <i class="bi bi-menu-button-wide"></i>
           <span>Feedback</span>
         </a>
       </li><!-- End Feedback Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-list-check"></i><span>Task</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{ route('konselor.cemas') }}">
+              <i class="bi bi-circle"></i><span>Task Cemas</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('konselor.depresi') }}">
+              <i class="bi bi-circle"></i><span>Task Depresi</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ route('konselor.task_berat') }}">
+              <i class="bi bi-circle"></i><span>Task Berat</span>
+            </a>
+          </li>
+
+        </ul>
+      </li><!-- End Icons Nav -->
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -299,71 +308,71 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Carousel Management</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('/konselor/dashboard') }}">Home</a></li>
-                <li class="breadcrumb-item active">Carousel</li>
-            </ol>
-        </nav>
+      <h1>Carousel Management</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url('/konselor/dashboard') }}">Home</a></li>
+          <li class="breadcrumb-item active">Carousel</li>
+        </ol>
+      </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
-        <div class="row">
-            <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-12">
 
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Carousel List</h5>
-                        <p>Berikut adalah daftar carousel yang telah ditambahkan.</p>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Carousel List</h5>
+              <p>Berikut adalah daftar carousel yang telah ditambahkan.</p>
 
-                        <a href="{{ route('konselor.carousel.create') }}" class="btn btn-primary mb-3">Tambah Carousel</a>
+              <a href="{{ route('konselor.carousel.create') }}" class="btn btn-primary mb-3">Tambah Carousel</a>
 
-                        @if(session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
+              @if(session('success'))
+              <div class="alert alert-success">{{ session('success') }}</div>
+              @endif
 
-                        <!-- Table with stripped rows -->
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th>Gambar</th>
-                                    <th>Judul</th>
-                                    <th>Deskripsi</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($carousels as $carousel)
-                                <tr>
-                                    <td>
-                                    <img src="{{ asset($carousel->image) }}" width="100" class="img-thumbnail">
-                                    </td>
-                                    <td>{{ $carousel->title }}</td>
-                                    <td>{{ $carousel->description }}</td>
-                                    <td>
-                                        <a href="{{ route('konselor.carousel.edit', $carousel->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="{{ route('konselor.carousel.destroy', $carousel->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <!-- End Table with stripped rows -->
-
-                    </div>
-                </div>
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Gambar</th>
+                    <th>Judul</th>
+                    <th>Deskripsi</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($carousels as $carousel)
+                  <tr>
+                    <td>
+                      <img src="{{ asset($carousel->image) }}" width="100" class="img-thumbnail">
+                    </td>
+                    <td>{{ $carousel->title }}</td>
+                    <td>{{ $carousel->description }}</td>
+                    <td>
+                      <a href="{{ route('konselor.carousel.edit', $carousel->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                      <form action="{{ route('konselor.carousel.destroy', $carousel->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                      </form>
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
 
             </div>
+          </div>
+
         </div>
+      </div>
     </section>
 
-</main>
-<!-- End #main -->
+  </main>
+  <!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">

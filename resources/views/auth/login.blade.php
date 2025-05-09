@@ -33,24 +33,24 @@
                 <label>Password</label>
             </div>
 
-            <div class="forget">
+            <!-- <div class="forget">
                 <a href="#">Lupa Password?</a>
-            </div>
+            </div> -->
 
             {{-- Tombol Login --}}
             <button type="submit">Masuk</button>
             <br>
 
-            {{-- Pemisah --}}
+            <!-- {{-- Pemisah --}}
             <div class="or-separator">
                 <p>Atau</p>
             </div>
-            <br>
+            <br> -->
 
-            {{-- Login dengan Google --}}
+            <!-- {{-- Login dengan Google --}}
             <a href="/auth-google-redirect" class="google-button">
                 <img src="{{ asset('images/google.png') }}" alt="Google"> Masuk dengan Google
-            </a>
+            </a> -->
 
             <div class="register">
                 <p>Belum memiliki akun? <a href="{{ route('registrasi.tampil') }}">Daftar</a></p>

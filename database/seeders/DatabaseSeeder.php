@@ -32,8 +32,9 @@ class DatabaseSeeder extends Seeder
         // Menambahkan akun Konselor
         User::factory()->create([
             'name' => 'konselor1',
-            'password' => Hash::make('konselor123'), // Pastikan password di-hash
-            'role' => 'konselor', 
+            'email' => 'konselor@example.com', // <-- tambahkan ini
+            'password' => Hash::make('konselor123'),
+            'role' => 'konselor',
         ]);
     }
 }

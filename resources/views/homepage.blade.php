@@ -39,14 +39,14 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{{ route('homepage') }}" class="active">Home</a></li>
-          <li><a href="{{ route('about_us') }}">About</a></li>
-          <li><a href="single-post.html">Single Post</a></li>
+          <li><a href="{{ route('about_us') }}">Tentang Kami</a></li>
+          <li><a href="{{ route('pembelajaran_user') }}">Pembelajaran</a></li>
           <li class="dropdown">
             <a href="#"><span>Categories</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="category.html">Category 1</a></li>
-              <li><a href="category.html">Category 2</a></li>
-              <li><a href="category.html">Category 3</a></li>
+              <li><a href="{{ route('jadwal.user') }}">Jadwal</a></li>
+              <li><a href="{{ route('analisis.form') }}">Cek Kesehatan Mental</a></li>
+              <!-- <li><a href="{{ route('histori') }}">Histori</a></li> -->
             </ul>
           </li>
           <li><a href="{{ route('feedback.user') }}">Feedback</a></li>
@@ -136,224 +136,223 @@
 
     <!-- /Slider Section -->
 
-    <!-- Trending Category Section -->
-    <section id="trending-category" class="trending-category section">
-
+    <!-- Pembelajaran + Pengumuman Section -->
+    <section id="culture-category" class="culture-category section">
       <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-5">
 
-        <div class="container" data-aos="fade-up">
-          <div class="row g-5">
-            <div class="col-lg-4">
-
-              <div class="post-entry lg">
-                <a href="blog-details.html"><img src="assets/img/post-landscape-1.jpg" alt="" class="img-fluid"></a>
-                <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                <h2><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
-                <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus exercitationem? Nihil tempore odit ab minus eveniet praesentium, similique blanditiis molestiae ut saepe perspiciatis officia nemo, eos quae cumque. Accusamus fugiat architecto rerum animi atque eveniet, quo, praesentium dignissimos</p>
-
-                <div class="d-flex align-items-center author">
-                  <div class="photo"><img src="assets/img/person-1.jpg" alt="" class="img-fluid"></div>
-                  <div class="name">
-                    <h3 class="m-0 p-0">Cameron Williamson</h3>
+          {{-- Kolom Pembelajaran (Kiri) --}}
+          <div class="col-lg-8">
+            <div class="row g-5">
+              {{-- Kolom Kiri --}}
+              <div class="col-lg-4">
+                @if($pembelajaran->isNotEmpty())
+                @php $first = $pembelajaran->first(); @endphp
+                <div class="post-list lg mb-4">
+                  @if($first->tipe === 'gambar')
+                  <img src="{{ asset($first->konten) }}" alt="{{ $first->judul }}" class="img-fluid rounded mb-2">
+                  @elseif($first->tipe === 'video')
+                  <video controls class="img-fluid rounded mb-2">
+                    <source src="{{ asset($first->konten) }}" type="video/mp4">
+                  </video>
+                  @else
+                  <img src="{{ asset('assets/img/default-thumbnail.jpg') }}" class="img-fluid rounded mb-2">
+                  @endif
+                  <div class="post-meta">
+                    <span>{{ $first->created_at->format('M jS, Y') }}</span>
                   </div>
+                  <h2>{{ $first->judul }}</h2>
+                  <p>{{ Str::limit($first->deskripsi, 120) }}</p>
                 </div>
+                @endif
+
+                @foreach($pembelajaran->slice(1, 2) as $item)
+                <div class="post-list border-bottom mb-3">
+                  <div class="post-meta">
+                    <span>{{ $item->created_at->format('M jS, Y') }}</span>
+                  </div>
+                  <h2 class="mb-2"><a href="{{ route('pembelajaran_user') }}">{{ $item->judul }}</a></h2>
+                  <p>{{ Str::limit($item->deskripsi, 120) }}</p>
+                </div>
+                @endforeach
               </div>
 
+              {{-- Sub-kolom 2 --}}
+              <div class="col-lg-4 border-start custom-border">
+                @foreach($pembelajaran->slice(3, 3) as $item)
+                <div class="post-list mb-4">
+                  @if($item->tipe === 'gambar')
+                  <img src="{{ asset($item->konten) }}" class="img-fluid mb-2">
+                  @elseif($item->tipe === 'video')
+                  <video controls class="img-fluid mb-2">
+                    <source src="{{ asset($item->konten) }}" type="video/mp4">
+                  </video>
+                  @else
+                  <img src="{{ asset('assets/img/default-thumbnail.jpg') }}" class="img-fluid mb-2">
+                  @endif
+                  <div class="post-meta">
+                    <span>{{ $item->created_at->format('M jS, Y') }}</span>
+                  </div>
+                  <h2><a href="{{ route('pembelajaran_user') }}">{{ $item->judul }}</a></h2>
+                  <p>{{ Str::limit($item->deskripsi, 120) }}</p>
+                </div>
+                @endforeach
+              </div>
+
+              {{-- Sub-kolom 3 --}}
+              <div class="col-lg-4 border-start custom-border">
+                @foreach($pembelajaran->slice(6, 3) as $item)
+                <div class="post-list mb-4">
+                  @if($item->tipe === 'gambar')
+                  <img src="{{ asset($item->konten) }}" class="img-fluid mb-2">
+                  @elseif($item->tipe === 'video')
+                  <video controls class="img-fluid mb-2">
+                    <source src="{{ asset($item->konten) }}" type="video/mp4">
+                  </video>
+                  @else
+                  <img src="{{ asset('assets/img/default-thumbnail.jpg') }}" class="img-fluid mb-2">
+                  @endif
+                  <div class="post-meta">
+                    <span>{{ $item->created_at->format('M jS, Y') }}</span>
+                  </div>
+                  <h2><a href="{{ route('pembelajaran_user') }}">{{ $item->judul }}</a></h2>
+                  <p>{{ Str::limit($item->deskripsi, 120) }}</p>
+                </div>
+                @endforeach
+              </div>
             </div>
+          </div>
 
-            <div class="col-lg-8">
-              <div class="row g-5">
-                <div class="col-lg-4 border-start custom-border">
-                  <div class="post-entry">
-                    <a href="blog-details.html"><img src="assets/img/post-landscape-2.jpg" alt="" class="img-fluid"></a>
-                    <div class="post-meta"><span class="date">Sport</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                    <h2><a href="blog-details.html">Let’s Get Back to Work, New York</a></h2>
-                  </div>
-                  <div class="post-entry">
-                    <a href="blog-details.html"><img src="assets/img/post-landscape-5.jpg" alt="" class="img-fluid"></a>
-                    <div class="post-meta"><span class="date">Food</span> <span class="mx-1">•</span> <span>Jul 17th '22</span></div>
-                    <h2><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                  </div>
-                  <div class="post-entry">
-                    <a href="blog-details.html"><img src="assets/img/post-landscape-7.jpg" alt="" class="img-fluid"></a>
-                    <div class="post-meta"><span class="date">Design</span> <span class="mx-1">•</span> <span>Mar 15th '22</span></div>
-                    <h2><a href="blog-details.html">Why Craigslist Tampa Is One of The Most Interesting Places On the Web?</a></h2>
-                  </div>
-                </div>
-                <div class="col-lg-4 border-start custom-border">
-                  <div class="post-entry">
-                    <a href="blog-details.html"><img src="assets/img/post-landscape-3.jpg" alt="" class="img-fluid"></a>
-                    <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                    <h2><a href="blog-details.html">6 Easy Steps To Create Your Own Cute Merch For Instagram</a></h2>
-                  </div>
-                  <div class="post-entry">
-                    <a href="blog-details.html"><img src="assets/img/post-landscape-6.jpg" alt="" class="img-fluid"></a>
-                    <div class="post-meta"><span class="date">Tech</span> <span class="mx-1">•</span> <span>Mar 1st '22</span></div>
-                    <h2><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-                  </div>
-                  <div class="post-entry">
-                    <a href="blog-details.html"><img src="assets/img/post-landscape-8.jpg" alt="" class="img-fluid"></a>
-                    <div class="post-meta"><span class="date">Travel</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                    <h2><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
-                  </div>
-                </div>
+          {{-- Kolom Pengumuman (Kanan) --}}
+          <div class="col-lg-4">
+            <div class="trending-category">
+              <div class="trending">
+                <h3>Pengumuman</h3>
 
-                <!-- Pengumuman Section -->
-                <div class="col-lg-4">
-                  <div class="trending">
-                    <h3>Pengumuman</h3>
-                    @if ($announcements->isNotEmpty())
-                    <ul class="trending-post">
-                      @foreach ($announcements->take(5) as $announcement) {{-- Ambil hanya 5 --}}
-                      <li>
-                        @auth
-                        <a href="{{ route('announcement.show', $announcement->id) }}">
-                          <h3>{{ $announcement->title }}</h3>
-                          <p>{{ $announcement->created_at->format('d M Y') }}</p>
-                        </a>
-                        @else
-                        <a href="{{ route('login') }}" onclick="return confirm('Anda harus login terlebih dahulu untuk melihat detail pengumuman.')">
-                          <h3>{{ $announcement->title }}</h3>
-                          <p>{{ $announcement->created_at->format('d M Y') }}</p>
-                        </a>
-                        @endauth
-                      </li>
-                      @endforeach
-                    </ul>
-
-                    <div class="container section-title" data-aos="fade-up">
-                      <div class="section-title-container d-flex align-items-center justify-content-between">
-                        <p>
-                          @auth
-                          <a href="{{ route('announcement.index') }}">Lihat Semua Pengumuman</a>
-                          @else
-                          <a href="{{ route('login') }}" onclick="return confirm('Anda harus login terlebih dahulu untuk melihat semua pengumuman.')">Lihat Semua Pengumuman</a>
-                          @endauth
-                        </p>
-                      </div>
-                    </div>
-
+                @if ($announcements->isNotEmpty())
+                <ul class="trending-post">
+                  @foreach ($announcements->take(5) as $key => $announcement)
+                  <li>
+                    @auth
+                    <a href="{{ route('announcement.show', $announcement->id) }}">
+                      <h3>{{ $announcement->title }}</h3>
+                      <span class="author">{{ $announcement->created_at->format('d M Y') }}</span>
+                    </a>
                     @else
-                    <p>Tidak ada pengumuman terbaru.</p>
-                    @endif
+                    <a href="{{ route('login') }}" onclick="return confirm('Anda harus login terlebih dahulu untuk melihat detail pengumuman.')">
+                      <span class="number">{{ $key + 1 }}</span>
+                      <h3>{{ $announcement->title }}</h3>
+                      <span class="author">{{ $announcement->created_at->format('d M Y') }}</span>
+                    </a>
+                    @endauth
+                  </li>
+                  @endforeach
+                </ul>
+
+                <div class="section-title mt-3" data-aos="fade-up">
+                  <div class="section-title-container d-flex align-items-center justify-content-between">
+                    <p>
+                      @auth
+                      <a href="{{ route('announcement.index') }}">Lihat Semua Pengumuman</a>
+                      @else
+                      <a href="{{ route('login') }}" onclick="return confirm('Anda harus login terlebih dahulu untuk melihat semua pengumuman.')">Lihat Semua Pengumuman</a>
+                      @endauth
+                    </p>
                   </div>
                 </div>
-              </div> <!-- End Trending Section -->
+                @else
+                <p class="p-3">Tidak ada pengumuman terbaru.</p>
+                @endif
+              </div>
             </div>
           </div>
 
         </div> <!-- End .row -->
-      </div>
-
-      </div>
-
-    </section><!-- /Trending Category Section -->
+      </div> <!-- End .container -->
+    </section><!-- /Pembelajaran Category Section -->
 
 
 
-    <!-- Business Category Section -->
-    <section id="business-category" class="business-category section">
+    <!-- Team Section -->
+    <section id="team" class="team section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <div class="section-title-container d-flex align-items-center justify-content-between">
-          <h2>Business</h2>
-          <p><a href="categories.html">See All Business</a></p>
+          <h2>Konselor Kami</h2>
+          <p>Konselor berpengalaman dan terpercaya, siap mendampingi Anda dengan solusi terbaik.</p>
         </div>
       </div><!-- End Section Title -->
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
+      <div class="container">
+        {{-- Kartu untuk Team Members --}}
         <div class="row">
-          <div class="col-md-9 order-md-2">
-
-            <div class="d-lg-flex post-entry">
-              <a href="blog-details.html" class="me-4 thumbnail d-inline-block mb-4 mb-lg-0">
-                <img src="assets/img/post-landscape-3.jpg" alt="" class="img-fluid">
-              </a>
-              <div>
-                <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                <h3><a href="blog-details.html">What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</a></h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio placeat exercitationem magni voluptates dolore. Tenetur fugiat voluptates quas, nobis error deserunt aliquam temporibus sapiente, laudantium dolorum itaque libero eos deleniti?</p>
-                <div class="d-flex align-items-center author">
-                  <div class="photo"><img src="assets/img/person-4.jpg" alt="" class="img-fluid"></div>
-                  <div class="name">
-                    <h3 class="m-0 p-0">Wade Warren</h3>
-                  </div>
-                </div>
+          @if ($teamMembers->isEmpty())
+          <p class="text-muted">Belum ada anggota tim</p>
+          @else
+          @foreach ($teamMembers as $member)
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="team-member d-flex align-items-start">
+              <div class="pic text-center">
+                <img src="{{ asset($member->image) }}"
+                  class="img-fluid rounded-circle shadow-sm"
+                  alt="{{ $member->name }}"
+                  style="width: 150px; height: 150px; object-fit: cover;">
               </div>
-            </div>
 
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="post-list border-bottom">
-                  <a href="blog-details.html"><img src="assets/img/post-landscape-5.jpg" alt="" class="img-fluid"></a>
-                  <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                  <h2 class="mb-2"><a href="blog-details.html">11 Work From Home Part-Time Jobs You Can Do Now</a></h2>
-                  <span class="author mb-3 d-block">Jenny Wilson</span>
-                  <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
-                </div>
-
-                <div class="post-list">
-                  <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                  <h2 class="mb-2"><a href="blog-details.html">5 Great Startup Tips for Female Founders</a></h2>
-                  <span class="author mb-3 d-block">Jenny Wilson</span>
-                </div>
-              </div>
-              <div class="col-lg-8">
-                <div class="post-list">
-                  <a href="blog-details.html"><img src="assets/img/post-landscape-7.jpg" alt="" class="img-fluid"></a>
-                  <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-                  <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-                  <span class="author mb-3 d-block">Jenny Wilson</span>
-                  <p class="mb-4 d-block">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero temporibus repudiandae, inventore pariatur numquam cumque possimus</p>
-                </div>
+              <div class="member-info ms-3">
+                <h4>{{ $member->name }}</h4>
+                <span>{{ $member->position }}</span>
+                <p>{{ $member->description }}</p>
               </div>
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="post-list border-bottom">
-              <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-              <h2 class="mb-2"><a href="blog-details.html">How to Avoid Distraction and Stay Focused During Video Calls?</a></h2>
-              <span class="author mb-3 d-block">Jenny Wilson</span>
-            </div>
-
-            <div class="post-list border-bottom">
-              <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-              <h2 class="mb-2"><a href="blog-details.html">17 Pictures of Medium Length Hair in Layers That Will Inspire Your New Haircut</a></h2>
-              <span class="author mb-3 d-block">Jenny Wilson</span>
-            </div>
-
-            <div class="post-list border-bottom">
-              <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-              <h2 class="mb-2"><a href="blog-details.html">9 Half-up/half-down Hairstyles for Long and Medium Hair</a></h2>
-              <span class="author mb-3 d-block">Jenny Wilson</span>
-            </div>
-
-            <div class="post-list border-bottom">
-              <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-              <h2 class="mb-2"><a href="blog-details.html">Life Insurance And Pregnancy: A Working Mom’s Guide</a></h2>
-              <span class="author mb-3 d-block">Jenny Wilson</span>
-            </div>
-
-            <div class="post-list border-bottom">
-              <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-              <h2 class="mb-2"><a href="blog-details.html">The Best Homemade Masks for Face (keep the Pimples Away)</a></h2>
-              <span class="author mb-3 d-block">Jenny Wilson</span>
-            </div>
-
-            <div class="post-list border-bottom">
-              <div class="post-meta"><span class="date">Business</span> <span class="mx-1">•</span> <span>Jul 5th '22</span></div>
-              <h2 class="mb-2"><a href="blog-details.html">10 Life-Changing Hacks Every Working Mom Should Know</a></h2>
-              <span class="author mb-3 d-block">Jenny Wilson</span>
-            </div>
-          </div>
+          @endforeach
+          @endif
         </div>
-
       </div>
 
-    </section><!-- /Business Category Section -->
+    </section><!-- /Team Section -->
 
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+      <!-- Feedback Title -->
+
+      <section class="container my-5">
+        <div class="text-center mb-4">
+          <h2 class="fw-bold">Apa Kata Pelanggan?</h2>
+          <hr>
+        </div>
+
+        <div class="swiper feedback-swiper">
+          <div class="swiper-wrapper">
+            @foreach ($feedbacks as $feedback)
+            <div class="swiper-slide">
+              <div class="card h-100 shadow-sm p-3 rounded-4">
+                <div class="card-body">
+                  <h5 class="card-title">{{ $feedback->user->name }}</h5>
+                  <p class="card-text">{{ $feedback->message }}</p>
+                  <small class="text-muted">{{ $feedback->created_at->format('d M Y, H:i') }}</small>
+                </div>
+              </div>
+            </div>
+            @endforeach
+          </div>
+
+          <!-- Navigasi jika diperlukan -->
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </section>
+
+
+
+      </div><!-- End Section Title -->
+
+    </section><!-- /Feedback Section -->
   </main>
 
   <footer id="footer" class="footer dark-background">
@@ -362,63 +361,34 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">ZenBlog</span>
+            <span class="sitename">RuangPikiran</span>
           </a>
           <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info@example.com</span></p>
-          </div>
-          <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
+            <p>Institut Teknologi Del</p>
+            <p> Jl. Sisingamangaraja, Sitoluama</p>
+            <p>Laguboti, Toba Samosir
+              Sumatera Utara, Indonesia</p>
+            <p class="mt-3"><strong>Phone:</strong> <span> +62 632 331234</span></p>
+            <p><strong>Email:</strong> <span>info@del.ac.id</span></p>
           </div>
         </div>
 
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
+            <li><a href="{{ route('homepage') }}">Home</a></li>
+            <li><a href="{{ route('about_us') }}">Tentang Kami</a></li>
+            <li><a href="{{ route('pembelajaran_user') }}">Pembelajaran</a></li>
+            <li><a href="{{ route('jadwal.user') }}">Jadwal</a></li>
+            <li><a href="{{ route('feedback.user') }}">Feedback</a></li>
           </ul>
         </div>
 
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Our Services</h4>
           <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Hic solutasetp</h4>
-          <ul>
-            <li><a href="#">Molestiae accusamus iure</a></li>
-            <li><a href="#">Excepturi dignissimos</a></li>
-            <li><a href="#">Suscipit distinctio</a></li>
-            <li><a href="#">Dilecta</a></li>
-            <li><a href="#">Sit quas consectetur</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Nobis illum</h4>
-          <ul>
-            <li><a href="#">Ipsam</a></li>
-            <li><a href="#">Laudantium dolorum</a></li>
-            <li><a href="#">Dinera</a></li>
-            <li><a href="#">Trodelas</a></li>
-            <li><a href="#">Flexo</a></li>
+            <li><a href="https://web.facebook.com/Institut.Teknologi.Del/"><i class="bi bi-facebook"></i></a> </li>
+            <li> <a href="https://www.instagram.com/it.del?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="bi bi-instagram"></i></a></li>
           </ul>
         </div>
 
@@ -426,9 +396,9 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">ZenBlog</strong> <span>All Rights Reserved</span></p>
       <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        Designed by Kelompok 17<br>
+        &copy; 2023 RuangPikiran. All Rights Reserved.
       </div>
     </div>
 
@@ -446,14 +416,44 @@
   <script src="{{ asset('/vendor/aos/aos.js') }}"></script>
   <script src="{{ asset('/vendor/swiper/swiper-bundle.min.js') }}"></script>
 
+  <!-- Tambahkan di <head> -->
+  <link rel="stylesheet" href="{{ asset('vendor/swiper/swiper-bundle.min.css') }}">
+
+  <!-- Tambahkan sebelum penutup </body> -->
+  <script src="{{ asset('vendor/swiper/swiper-bundle.min.js') }}"></script>
+
+
+  <script>
+    const swiper = new Swiper('.feedback-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      grid: {
+        rows: 2, // tampilkan 2 baris
+        fill: "row"
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 2, // 2 kolom di tablet
+        },
+        1024: {
+          slidesPerView: 3, // 3 kolom di desktop
+        },
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
+
 
   <!-- Main JS File -->
   <script src="{{ asset('/js/main.js') }}"></script>
-
-
-
-
 </body>
-
 
 </html>

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>Dashboard Admin</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -13,8 +13,8 @@
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-   <!-- Google Fonts -->
-   <link href="https://fonts.gstatic.com" rel="preconnect">
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
@@ -203,50 +203,17 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+
+            <li>
+              <hr class="dropdown-divider">
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-           
             <li>
               <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -271,20 +238,27 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-      <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" 
-      href="{{ route('admin.dashboard') }}">
+        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+          href="{{ route('admin.dashboard') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
 
-     <li class="nav-item">
-    <a class="nav-link collapsed " href="{{ route('admin.about_us_admin') }}">
-        <i class="bi bi-person-bounding-box"></i>
-        <span>About Us</span>
-    </a>
-</li><!-- End About Us Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed " href="{{ route('admin.about_us_admin') }}">
+          <i class="bi bi-person-bounding-box"></i>
+          <span>Tentang Kita</span>
+        </a>
+      </li><!-- End About Us Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed " href="{{ route('admin.create_konselor_admin') }}">
+          <i class="ri-parent-fill"></i>
+          <span>Tambah Konselor</span>
+        </a>
+      </li><!-- End Create Konselor Nav -->
 
     </ul>
 
@@ -301,7 +275,188 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-   
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Konselor</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="ri-user-heart-fill"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ $jumlahKonselor }}</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Sales Card -->
+
+
+
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+                <div class="card-body">
+                  <h5 class="card-title">User(Customer)</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ $totalCustomers }}</h6>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            <!-- Recent Sales -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+
+                </div>
+
+                <!-- <div class="card-body">
+                  <h5 class="card-title">Data Hasil analisis</span></h5>
+
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"><a href="#">#2457</a></th>
+                        <td>Brandon Jacob</td>
+                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
+                        <td>$64</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><a href="#">#2147</a></th>
+                        <td>Bridie Kessler</td>
+                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
+                        <td>$47</td>
+                        <td><span class="badge bg-warning">Pending</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><a href="#">#2049</a></th>
+                        <td>Ashleigh Langosh</td>
+                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
+                        <td>$147</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><a href="#">#2644</a></th>
+                        <td>Angus Grady</td>
+                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
+                        <td>$67</td>
+                        <td><span class="badge bg-danger">Rejected</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><a href="#">#2644</a></th>
+                        <td>Raheem Lehner</td>
+                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
+                        <td>$165</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div> -->
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+          <!-- News & Updates Traffic -->
+          <!-- <div class="card">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filter</h6>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Today</a></li>
+                <li><a class="dropdown-item" href="#">This Month</a></li>
+                <li><a class="dropdown-item" href="#">This Year</a></li>
+              </ul>
+            </div>
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+
+              <div class="news">
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-1.jpg" alt="">
+                  <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
+                  <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-2.jpg" alt="">
+                  <h4><a href="#">Quidem autem et impedit</a></h4>
+                  <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-3.jpg" alt="">
+                  <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
+                  <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-4.jpg" alt="">
+                  <h4><a href="#">Laborum corporis quo dara net para</a></h4>
+                  <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
+                </div>
+
+                <div class="post-item clearfix">
+                  <img src="assets/img/news-5.jpg" alt="">
+                  <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
+                  <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
+                </div>
+
+              </div>
+
+            </div>
+          </div>-->
+
+
+          <!-- End News & Updates -->
+
+        </div><!-- End Right side columns -->
+
+      </div>
+    </section>
 
 
   </main><!-- End #main -->
@@ -318,8 +473,8 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-   <!-- Vendor JS Files -->
-   <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <!-- Vendor JS Files -->
+  <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
   <script src="{{ asset('assets/vendor/echarts/echarts.min.js') }}"></script>
